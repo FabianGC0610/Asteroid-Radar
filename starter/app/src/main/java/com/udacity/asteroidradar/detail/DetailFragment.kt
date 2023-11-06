@@ -24,6 +24,7 @@ class DetailFragment : Fragment() {
 
         binding.helpButton.setOnClickListener {
             displayAstronomicalUnitExplanationDialog()
+            it.contentDescription = getString(R.string.astronomical_unit_explanation_content_description)
         }
 
         return binding.root

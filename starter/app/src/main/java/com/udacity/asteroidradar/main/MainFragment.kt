@@ -38,6 +38,8 @@ class MainFragment : Fragment() {
         val adapter = MainAdapter(
             AsteroidListener { asteroid ->
                 viewModel.onAsteroidClicked(asteroid)
+                binding.asteroidRecycler.contentDescription =
+                    getString(R.string.asteroid_selected_content_description, asteroid.codename)
             },
         )
         binding.asteroidRecycler.adapter = adapter

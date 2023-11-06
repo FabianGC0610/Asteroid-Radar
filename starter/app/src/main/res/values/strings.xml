@@ -28,5 +28,14 @@
     <string name="picture_of_day_no_image_found_content_description">Default asteroid image. Picture of day is a video.</string>
     <string name="potentially_hazardous_asteroid_icon">Potentially hazardous asteroid icon</string>
     <string name="not_hazardous_asteroid_icon">Not hazardous asteroid icon</string>
+    <string name="loading_progress_bar_content_description">Loading content</string>
+    <string name="asteroids_list_content_description">Asteroids list</string>
+    <string name="code_name_content_description">Asteroid code name</string>
+    <string name="approach_date_content_description">Asteroid approach date</string>
+    <string name="astronomical_unit_format_content_description">%f astronomical units</string>
+    <string name="km_unit_format_content_description">%f kilometers</string>
+    <string name="km_s_unit_format_content_description">%f kilometers per second</string>
+    <string name="astronomical_unit_explanation_content_description">Astronomical unit definition is open</string>
+    <string name="asteroid_selected_content_description">%s is selected</string>
 
 </resources>

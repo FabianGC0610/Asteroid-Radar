@@ -35,18 +35,21 @@ fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
 fun bindTextViewToAstronomicalUnit(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.astronomical_unit_format), number)
+    textView.contentDescription = String.format(context.getString(R.string.astronomical_unit_format_content_description), number)
 }
 
 @BindingAdapter("kmUnitText")
 fun bindTextViewToKmUnit(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_unit_format), number)
+    textView.contentDescription = String.format(context.getString(R.string.km_unit_format_content_description), number)
 }
 
 @BindingAdapter("velocityText")
 fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
+    textView.contentDescription = String.format(context.getString(R.string.km_s_unit_format_content_description), number)
 }
 
 @BindingAdapter("listData")
@@ -57,7 +60,13 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
 
 @BindingAdapter("logic")
 fun showProgressBar(progressBar: ProgressBar, status: AsteroidsApiStatus) {
-    progressBar.isVisible = status == AsteroidsApiStatus.LOADING
+    if (status == AsteroidsApiStatus.LOADING) {
+        progressBar.isVisible = true
+        progressBar.contentDescription =
+            progressBar.context.getString(R.string.loading_progress_bar_content_description)
+    } else {
+        progressBar.isVisible = false
+    }
 }
 
 @BindingAdapter("logic2")
