@@ -12,12 +12,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.models.Asteroid
 
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this)[(MainViewModel::class.java)]
+        ViewModelProvider(
+            this,
+            MainViewModelFactory(
+                requireNotNull(this.activity).application,
+            ),
+        )[(MainViewModel::class.java)]
     }
 
     override fun onCreateView(
@@ -37,9 +41,15 @@ class MainFragment : Fragment() {
             },
         )
         binding.asteroidRecycler.adapter = adapter
-        adapter.submitList(getDummyAsteroidList())
 
-        setupObserver()
+        viewModel.navigateToAsteroidDetails.observe(viewLifecycleOwner) { asteroidId ->
+            asteroidId?.let {
+                this.findNavController().navigate(
+                    MainFragmentDirections.actionShowDetail(asteroidId),
+                )
+                viewModel.onAsteroidClickedComplete()
+            }
+        }
 
         return binding.root
     }
@@ -50,36 +60,13 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.changeFilter(
+            when (item.itemId) {
+                R.id.show_all_menu -> AsteroidFilter.WEEK
+                R.id.show_buy_menu -> AsteroidFilter.SAVED
+                else -> AsteroidFilter.TODAY
+            },
+        )
         return true
-    }
-
-    private fun setupObserver() {
-        viewModel.navigateToAsteroidDetails.observe(viewLifecycleOwner) { asteroidId ->
-            asteroidId?.let {
-                this.findNavController().navigate(
-                    MainFragmentDirections.actionShowDetail(asteroidId),
-                )
-                viewModel.onAsteroidClickedComplete()
-            }
-        }
-    }
-
-    private fun getDummyAsteroidList(): List<Asteroid> {
-        val list = mutableListOf<Asteroid>()
-        for (x in 1..10) {
-            list.add(
-                Asteroid(
-                    id = 123456789L,
-                    codename = "Kepler 362B",
-                    closeApproachDate = "2023-05-15",
-                    absoluteMagnitude = 5000.20,
-                    estimatedDiameter = 1500.25,
-                    relativeVelocity = 2600.00,
-                    distanceFromEarth = 15000000.00,
-                    isPotentiallyHazardous = false,
-                ),
-            )
-        }
-        return list
     }
 }
