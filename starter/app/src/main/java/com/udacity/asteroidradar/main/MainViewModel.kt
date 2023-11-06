@@ -8,8 +8,11 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.domain.PictureOfDay
+import com.udacity.asteroidradar.network.AsteroidApi
 import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 enum class AsteroidsApiStatus { SUCCESS, ERROR, LOADING }
 
@@ -28,9 +31,24 @@ class MainViewModel(application: Application) : ViewModel() {
     private val _navigateToAsteroidDetails = MutableLiveData<Asteroid?>()
     val navigateToAsteroidDetails: LiveData<Asteroid?> get() = _navigateToAsteroidDetails
 
+    private val _pictureOfDay = MutableLiveData<PictureOfDay?>()
+    val pictureOfDay: LiveData<PictureOfDay?> get() = _pictureOfDay
+
     init {
+        getPictureOfDay()
         getASteroidsList()
         _filter.value = AsteroidFilter.TODAY
+    }
+
+    private fun getPictureOfDay() {
+        viewModelScope.launch {
+            try {
+                val pictureOfDay = AsteroidApi.pictureOfDayService.getPictureOfDay().await()
+                _pictureOfDay.value = pictureOfDay
+            } catch (e: Exception) {
+                _pictureOfDay.value = null
+            }
+        }
     }
 
     private fun getASteroidsList() {

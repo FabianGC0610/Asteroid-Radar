@@ -24,4 +24,9 @@
     <string name="asteroid_code_name_tool">68347 (2001 KB67)</string>
     <string name="asteroid_approach_date_tool">2020–02–08</string>
 
+    <!-- Content descriptions -->
+    <string name="picture_of_day_no_image_found_content_description">Default asteroid image. Picture of day is a video.</string>
+    <string name="potentially_hazardous_asteroid_icon">Potentially hazardous asteroid icon</string>
+    <string name="not_hazardous_asteroid_icon">Not hazardous asteroid icon</string>
+
 </resources>

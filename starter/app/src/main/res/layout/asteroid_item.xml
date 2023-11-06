@@ -61,6 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:statusIcon="@{asteroid.potentiallyHazardous}"
+            app:statusIconContentDescription="@{asteroid.potentiallyHazardous}"
             tools:srcCompat="@drawable/ic_status_potentially_hazardous" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

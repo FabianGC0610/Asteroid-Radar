@@ -6,8 +6,10 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.domain.PictureOfDay
 import com.udacity.asteroidradar.main.AsteroidsApiStatus
 import com.udacity.asteroidradar.main.MainAdapter
 
@@ -61,4 +63,46 @@ fun showProgressBar(progressBar: ProgressBar, status: AsteroidsApiStatus) {
 @BindingAdapter("logic2")
 fun showProgressBar2(progressBar: ProgressBar, data: List<Asteroid>?) {
     progressBar.isVisible = data?.isEmpty() == true
+}
+
+@BindingAdapter("pictureOfDayImage")
+fun bindPictureOfDay(imageView: ImageView, pictureOfDay: PictureOfDay?) {
+    if (pictureOfDay != null) {
+        if (pictureOfDay.mediaType == "image") {
+            Picasso.Builder(imageView.context).build()
+                .load(pictureOfDay.url)
+                .into(imageView)
+            imageView.contentDescription = imageView.context.getString(
+                R.string.nasa_picture_of_day_content_description_format,
+                pictureOfDay.title,
+            )
+        } else {
+            imageView.setImageResource(R.drawable.asteroid_safe)
+            imageView.contentDescription = imageView.context.getString(
+                R.string.picture_of_day_no_image_found_content_description,
+            )
+        }
+    } else {
+        imageView.contentDescription = imageView.context.getString(
+            R.string.this_is_nasa_s_picture_of_day_showing_nothing_yet,
+        )
+    }
+}
+
+@BindingAdapter("detailsImageContentDescription")
+fun showDetailsImageContentDescription(imageView: ImageView, isPotentiallyHazardous: Boolean) {
+    imageView.contentDescription = if (isPotentiallyHazardous) {
+        imageView.context.getString(R.string.potentially_hazardous_asteroid_image)
+    } else {
+        imageView.context.getString(R.string.not_hazardous_asteroid_image)
+    }
+}
+
+@BindingAdapter("statusIconContentDescription")
+fun showStatusIconContentDescription(imageView: ImageView, isPotentiallyHazardous: Boolean) {
+    imageView.contentDescription = if (isPotentiallyHazardous) {
+        imageView.context.getString(R.string.potentially_hazardous_asteroid_icon)
+    } else {
+        imageView.context.getString(R.string.not_hazardous_asteroid_icon)
+    }
 }

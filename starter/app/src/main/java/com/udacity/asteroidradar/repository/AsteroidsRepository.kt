@@ -9,7 +9,7 @@ import com.udacity.asteroidradar.database.asDomainModel
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.main.AsteroidFilter
 import com.udacity.asteroidradar.main.AsteroidsApiStatus
-import com.udacity.asteroidradar.network.Network
+import com.udacity.asteroidradar.network.AsteroidApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -31,7 +31,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
     suspend fun refreshAsteroids(): Pair<AsteroidsApiStatus, AsteroidFilter> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = Network.retrofitService.getAsteroidsList().execute()
+                val response = AsteroidApi.asteroidsService.getAsteroidsList().execute()
 
                 if (response.isSuccessful) {
                     val jsonString = response.body()
