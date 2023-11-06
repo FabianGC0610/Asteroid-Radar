@@ -3,11 +3,16 @@ package com.udacity.asteroidradar.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.udacity.asteroidradar.api.asDatabaseModel
+import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.database.asDomainModel
 import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.main.AsteroidFilter
+import com.udacity.asteroidradar.main.AsteroidsApiStatus
+import com.udacity.asteroidradar.network.Network
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 
 class AsteroidsRepository(private val database: AsteroidsDatabase) {
 
@@ -23,9 +28,24 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
         it.asDomainModel()
     }
 
-    suspend fun refreshAsteroids(asteroidList: ArrayList<Asteroid>) {
-        withContext(Dispatchers.IO) {
-            database.asteroidDao.insertAll(*asteroidList.asDatabaseModel())
+    suspend fun refreshAsteroids(): Pair<AsteroidsApiStatus, AsteroidFilter> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = Network.retrofitService.getAsteroidsList().execute()
+
+                if (response.isSuccessful) {
+                    val jsonString = response.body()
+                    if (jsonString != null) {
+                        val asteroidList = parseAsteroidsJsonResult(JSONObject(jsonString))
+                        database.asteroidDao.insertAll(*asteroidList.asDatabaseModel())
+                        return@withContext Pair(AsteroidsApiStatus.SUCCESS, AsteroidFilter.TODAY)
+                    }
+                }
+
+                return@withContext Pair(AsteroidsApiStatus.ERROR, AsteroidFilter.TODAY)
+            } catch (e: Exception) {
+                return@withContext Pair(AsteroidsApiStatus.ERROR, AsteroidFilter.TODAY)
+            }
         }
     }
 }
