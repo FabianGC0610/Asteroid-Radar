@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -41,9 +42,11 @@
                 android:background="#55010613"
                 android:padding="16dp"
                 android:text="@string/image_of_the_day"
+                android:textAlignment="viewStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RtlCompat" />
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView

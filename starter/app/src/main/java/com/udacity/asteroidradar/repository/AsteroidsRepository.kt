@@ -48,6 +48,12 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
             }
         }
     }
+
+    suspend fun deleteOldAsteroids() {
+        withContext(Dispatchers.IO) {
+            database.asteroidDao.deleteOldAsteroids()
+        }
+    }
 }
 
 /** I do not know why but I couldn't use Transformations so I create my own function :) */
