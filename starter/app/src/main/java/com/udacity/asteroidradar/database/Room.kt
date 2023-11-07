@@ -18,10 +18,10 @@ interface AsteroidDao {
     @Query("DELETE FROM asteroids_table WHERE close_approach_date = date('now','-1 day')")
     suspend fun deleteOldAsteroids()
 
-    @Query("SELECT * FROM asteroids_table ORDER BY close_approach_date DESC")
+    @Query("SELECT * FROM asteroids_table WHERE close_approach_date >= date('now') AND close_approach_date <= date('now', '+7 days') ORDER BY close_approach_date DESC")
     fun getSavedAsteroids(): LiveData<List<DatabaseAsteroid>>
 
-    @Query("SELECT * FROM asteroids_table WHERE close_approach_date >= date('now') AND close_approach_date <= date('now', '+7 days') ORDER BY close_approach_date DESC")
+    @Query("SELECT * FROM asteroids_table WHERE close_approach_date >= date('now', '+1 day') AND close_approach_date <= date('now', '+7 days') ORDER BY close_approach_date DESC")
     fun getWeekAsteroids(): LiveData<List<DatabaseAsteroid>>
 
     @Query("SELECT * FROM asteroids_table WHERE close_approach_date = date('now')")

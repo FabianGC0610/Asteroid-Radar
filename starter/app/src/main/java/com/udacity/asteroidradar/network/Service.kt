@@ -16,7 +16,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -29,7 +28,11 @@ private fun getEndDate(): String {
 }
 
 private fun getStartDate(): String {
-    return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+    val actualDate = Calendar.getInstance()
+    actualDate.add(Calendar.DAY_OF_MONTH, +1)
+    val endDate = actualDate.time
+    val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    return formattedDate.format(endDate)
 }
 
 interface AsteroidsService {
