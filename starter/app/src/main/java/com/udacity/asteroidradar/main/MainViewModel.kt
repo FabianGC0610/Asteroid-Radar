@@ -10,6 +10,7 @@ import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.domain.PictureOfDay
 import com.udacity.asteroidradar.network.AsteroidApi
+import com.udacity.asteroidradar.network.RequestLogic
 import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -54,6 +55,7 @@ class MainViewModel(application: Application) : ViewModel() {
     private fun getASteroidsList() {
         _status.value = AsteroidsApiStatus.LOADING
         viewModelScope.launch {
+            RequestLogic.setTodayRequired(true)
             val pair = asteroidsRepository.refreshAsteroids()
             _status.value = pair.first
             _filter.value = pair.second
