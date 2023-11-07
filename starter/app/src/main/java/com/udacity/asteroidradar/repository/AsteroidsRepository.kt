@@ -38,13 +38,13 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
                     if (jsonString != null) {
                         val asteroidList = parseAsteroidsJsonResult(JSONObject(jsonString))
                         database.asteroidDao.insertAll(*asteroidList.asDatabaseModel())
-                        return@withContext Pair(AsteroidsApiStatus.SUCCESS, AsteroidFilter.TODAY)
+                        return@withContext Pair(AsteroidsApiStatus.SUCCESS, AsteroidFilter.WEEK)
                     }
                 }
 
-                return@withContext Pair(AsteroidsApiStatus.ERROR, AsteroidFilter.TODAY)
+                return@withContext Pair(AsteroidsApiStatus.ERROR, AsteroidFilter.WEEK)
             } catch (e: Exception) {
-                return@withContext Pair(AsteroidsApiStatus.ERROR, AsteroidFilter.TODAY)
+                return@withContext Pair(AsteroidsApiStatus.ERROR, AsteroidFilter.WEEK)
             }
         }
     }

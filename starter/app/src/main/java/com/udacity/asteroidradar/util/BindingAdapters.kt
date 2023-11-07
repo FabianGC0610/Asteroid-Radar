@@ -58,6 +58,11 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
     adapter.submitList(data)
 }
 
+@BindingAdapter("listLogic")
+fun showRecyclerView(recyclerView: RecyclerView, status: AsteroidsApiStatus) {
+    recyclerView.isVisible = status != AsteroidsApiStatus.LOADING
+}
+
 @BindingAdapter("logic")
 fun showProgressBar(progressBar: ProgressBar, status: AsteroidsApiStatus) {
     if (status == AsteroidsApiStatus.LOADING) {
@@ -67,11 +72,6 @@ fun showProgressBar(progressBar: ProgressBar, status: AsteroidsApiStatus) {
     } else {
         progressBar.isVisible = false
     }
-}
-
-@BindingAdapter("logic2")
-fun showProgressBar2(progressBar: ProgressBar, data: List<Asteroid>?) {
-    progressBar.isVisible = data?.isEmpty() == true
 }
 
 @BindingAdapter("pictureOfDayImage")

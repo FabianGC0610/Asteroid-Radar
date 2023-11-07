@@ -37,7 +37,7 @@ class MainViewModel(application: Application) : ViewModel() {
     init {
         getPictureOfDay()
         getASteroidsList()
-        _filter.value = AsteroidFilter.TODAY
+        _filter.value = AsteroidFilter.WEEK
     }
 
     private fun getPictureOfDay() {

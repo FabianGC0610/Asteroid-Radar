@@ -20,15 +20,15 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-private fun getStartDate(): String {
+private fun getEndDate(): String {
     val actualDate = Calendar.getInstance()
-    actualDate.add(Calendar.DAY_OF_MONTH, -7)
+    actualDate.add(Calendar.DAY_OF_MONTH, +7)
     val endDate = actualDate.time
     val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     return formattedDate.format(endDate)
 }
 
-private fun getEndDate(): String {
+private fun getStartDate(): String {
     return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 }
 
